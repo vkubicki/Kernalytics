@@ -3,10 +3,16 @@ package rkhsnew
 import rkhs.Algebra
 import various.TypeDef._
 
+import scala.util.{Failure, Success, Try}
+
 /**
  * Abstract algebraic structures defined as traits, which must be implemented in AlgebraImplemented as objects for each
  * type of data on which they can be implemented. The kernels are included in each algebraic structure.
  * corresponding
+ *
+ * Bibliography:
+ * - https://en.wikipedia.org/wiki/Reproducing_kernel_Hilbert_space#Common_Examples
+ * - https://en.wikipedia.org/wiki/Positive-definite_kernel , for the notations used in the kernels
  */
 object AlgebraAbstract {
   object Traits {
@@ -14,8 +20,14 @@ object AlgebraAbstract {
       def minus(x: T, y: T): T
       def ip(x: T, y: T): Real
 
+      def apply(kernelName: String, paramStr: String): Try[(T, T) => Real] = kernelName match {
+        case "linear" => Success(ip)
+        case "polynomial" => ???
+        case "gaussian" => ???
+        case _ => Failure(new Exception(s"$kernelName is not a kernel of InnerProductSpace, try linear, polynomial or gaussian."))
+      }
+
       var kernel = Map[String, (String, T, T) => Real](
-        "linear" -> { case (paramStr, x, y) => ip(x, y) },
  //       "polynomial" -> (paramStr: String, x: T, y: T) => {val c = 12., val d = 12, math.pow(ip(x, y) + c, d)}
       )
 
