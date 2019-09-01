@@ -1,16 +1,8 @@
 package spec.iospec
 
-import breeze.linalg._
-import breeze.numerics._
-import breeze.stats.distributions._
-import org.scalactic._
-import org.scalatest._
-import org.scalatest.TryValues._
-import scala.util.{ Try, Success, Failure }
-
-import rkhs.{ Algebra, KerEval, Kernel }
-import various.TypeDef._
 import io.ReadVar
+import org.scalatest.TryValues._
+import org.scalatest._
 
 /**
  * Test IO, using data present on file.

@@ -1,6 +1,7 @@
 package rkhsnew
 
 import rkhs.Algebra
+import various.Error
 import various.TypeDef._
 
 import scala.util.{Failure, Success, Try}
@@ -20,20 +21,20 @@ object AlgebraAbstract {
       def minus(x: T, y: T): T
       def ip(x: T, y: T): Real
 
-      def apply(kernelName: String, paramStr: String): Try[(T, T) => Real] = kernelName match {
+      def apply(kernelNameStr: String, paramStr: String): Try[(T, T) => Real] = kernelNameStr match {
         case "linear" => Success(ip)
-        case "polynomial" => ???
-        case "gaussian" => ???
-        case _ => Failure(new Exception(s"$kernelName is not a kernel of InnerProductSpace, try linear, polynomial or gaussian."))
-      }
 
-      var kernel = Map[String, (String, T, T) => Real](
- //       "polynomial" -> (paramStr: String, x: T, y: T) => {val c = 12., val d = 12, math.pow(ip(x, y) + c, d)}
-      )
+        case "polynomial" => for {
+          (c, d) <- io.ReadParam.parseRealInteger(paramStr)
+          _ <- Error.validate(d, 0 <= d, s"A $kernelNameStr model has a d parameter value $paramStr. d should be superior or equal to 0.")
+        } yield (x: T, y: T) => math.pow(ip(x, y) + c, d)
 
-      def gaussian(x: T, y: T, sd: Real): Real = {
-        val diff = minus(x, y)
-        math.exp(-ip(diff, diff) / (2.0 * math.pow(sd, 2.0)))
+        case "gaussian" => for {
+          sd <- Try(paramStr.toReal)
+          _ <- Error.validate(sd, 0.0 < sd, s"A $kernelNameStr model has a sd parameter value $paramStr. sd should be strictly superior to 0.")
+        } yield (x: T, y: T) => {val diff = minus(x, y); math.exp(-ip(diff, diff) / (2.0 * math.pow(sd, 2.0)))}
+
+        case _ => Failure(new Exception(s"$kernelNameStr is not a kernel of InnerProductSpace, try linear, polynomial or gaussian."))
       }
     }
 

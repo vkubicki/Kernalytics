@@ -59,4 +59,24 @@ object ReadParam {
       case Failure(_) => Failure(new Exception(str + " is not a valid parameter String")) // default exception for pattern matching is not expressive enough
     }
   }
+
+  def parseTwoIntegers(str: String): Try[(Integer, Integer)] = {
+    val paramPattern = raw" *([0-9]+) *, *([0-9]+)".r
+    val t = Try({ val t = paramPattern.findAllIn(str); (t.group(1).toInteger, t.group(2).toInteger) })
+
+    t match {
+      case Success(_) => t
+      case Failure(_) => Failure(new Exception(str + " should consist of two integers separated by a comma")) // default exception for pattern matching is not expressive enough
+    }
+  }
+
+  def parseRealInteger(str: String): Try[(Real, Integer)] = {
+    val paramPattern = raw" *([0-9.]+) *, *([0-9]+)".r
+    val t = Try({ val t = paramPattern.findAllIn(str); (t.group(1).toReal, t.group(2).toInteger) })
+
+    t match {
+      case Success(_) => t
+      case Failure(_) => Failure(new Exception(str + " should consist of two integers separated by a comma")) // default exception for pattern matching is not expressive enough
+    }
+  }
 }
