@@ -14,7 +14,7 @@ import scala.util.{Failure, Success, Try}
  * - https://en.wikipedia.org/wiki/Reproducing_kernel_Hilbert_space#Examples
  * - https://en.wikipedia.org/wiki/Positive-definite_kernel , for the notations used in the kernels
  */
-object Kernel {
+object AlgebraImplementation {
 
   object R {
 

@@ -1,6 +1,6 @@
 package rkhsnew
 
-import rkhs.DataRoot
+import rkhs.{DataRoot, KerEval}
 import various.TypeDef._
 
 import scala.util.{Failure, Try}
@@ -15,9 +15,9 @@ object KernelGenerator {
   /**
    * Generate a single var KerEval from a combination of parameter string and data.
    */
-  def generateKernelFromParamData(kernelNameStr: String, paramStr: String, data: DataRoot): Try[(Index, Index) => Real] = data match {
-    case DataRoot.RealVal(data) => ???
-
-    case _ => Failure(new Exception(s"$kernelNameStr kernel is not available for ${data.typeName}"))
+  def generateKernelFromParamData(kernelStr: String, data: DataRoot): Try[(Index, Index) => Real] = data match {
+    case DataRoot.RealVal(data) => AlgebraImplementation.R.getKernel(kernelStr).map(ker => KerEval.generateKerEvalFunc(data, ker))
+    case DataRoot.VectorReal(_) => Failure(new Exception("Kernels have not yet been defined for vectors of real numbers."))
+    case DataRoot.MatrixReal(_) => Failure(new Exception("Kernels have not yet been defined for matrices of real numbers."))
   }
 }
