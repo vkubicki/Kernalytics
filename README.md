@@ -5,6 +5,7 @@ Kernel methods are versatile, and Kernalytics exploits this property through a g
 Current implementations cover:
 
 - algorithms: k-means, offline change point detection, regression, support vector machine, two sample test
+- learn and predict modes for selected algorithms (regression, SVM)
 - data types: real, vector, matrix
 - kernel families: linear, polynomial, gaussian, laplacian
 - Gram matrix optimization: direct computation, cached computation, low rank approximation

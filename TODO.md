@@ -6,6 +6,8 @@
 
 ## Short Term
 
+- run R tests with the new parameter format
+- update all documentation to the new architecture
 - provide test cases for all algorithms, in Scala and R
 - provide detailed instructions for kernalizr, at least in a markdown format
 - some data types are coded but can not be used in a csv file for lack of an implemented parser:
@@ -42,6 +44,7 @@
 
 ### Performances
 
+- k-means should have a predict mode
 - the loop over D in offline change point detection for a given tauP can be parallelized.
   - Will the gain outweigh the overhead for thread spawning ?
   - That would depend on the value of DMax.

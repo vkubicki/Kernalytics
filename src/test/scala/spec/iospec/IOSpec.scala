@@ -1,15 +1,12 @@
 package spec.iospec
 
 import breeze.linalg._
-import breeze.numerics._
-import breeze.stats.distributions._
-import org.scalactic._
-import org.scalatest._
-import scala.util.{ Try, Success, Failure }
-
-import rkhs.{ Algebra, DataRoot, KerEval, Kernel }
-import various.TypeDef._
 import io.ReadVar
+import org.scalatest._
+import rkhs.DataRoot
+import various.TypeDef._
+
+import scala.util.{Failure, Success}
 
 /**
  * Test IO, using data present on file.
