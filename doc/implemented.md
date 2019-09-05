@@ -1,6 +1,6 @@
 # What is implemented
 
-## For each algebraic structure
+## Kernels in algebraic structure
 
 ### Distribution
 
@@ -21,7 +21,7 @@ Nothing yet.
 - gaussian(sd)
 - laplacian(alpha)
 
-## For each data type
+## Algebraic structures for data types
 
 ### Real
 

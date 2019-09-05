@@ -3,6 +3,7 @@
 This document presents the data format used in Kernalytics. Examples can be found in the [exec](/data/exec) directory.
 
 A Kernalytics analysis case is composed of several files:
+
 - `algo.csv`: describes the numerical method used, and its parameters
 - `desc.csv`: describes the kernel used on the data
 - `learnData.csv`: the data used to compute the Gram matrix during learning
@@ -47,13 +48,9 @@ Each column correspond to one individual kernel based on one variable. The compl
 
 1. Variable name: the variable in `data.csv` on which the kernel is computed
 2. Weight: weight in the linear combination of kernels
-3. Kernel: kernel and parameter in the format `name(parameters value separated by commas)`
+3. Kernel: kernel and parameter in the format `structure.kernel(parameters)`, for example, `InnerProductSpace.polynomial(3.0, 4)`.
 
-Note that in the current version of Kernalytics, only a fraction of the possible combination between data types and kernels are available. Some kernels have been coded, but are not available, while some data are supported but not parsed yet.s
-
-- `Real`: `linear` and `gaussian`
-- `VectorReal(n)`: `linear` and `gaussian`
-- `MatrixReal(n, m)`: `gaussian`, but the parser for matrices has not been written yet
+The list of implemented kernels / structure is detailed in [implemented](implemented.md). Please note that matrices are internally supported, but not parsed yet.
 
 ## `learnData.csv` or `predictData.csv`
 
