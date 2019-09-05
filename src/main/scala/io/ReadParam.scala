@@ -59,6 +59,15 @@ object ReadParam {
     }
   }
 
+  def parseKernel(str: String): Try[(String, String, String)] = {
+    val paramPattern = raw"(\w+)\.(\w+)\(([+-a-zA-Z0-9.]*)\)".r
+
+    str match {
+      case paramPattern(structure, kernel, param) => Success((structure, kernel, param))
+      case _ => Failure(new Exception(s"$str is not a valid parameter string. The general pattern is Structure.kernel(param)."))
+    }
+  }
+
   def parseTwoIntegers(str: String): Try[(Integer, Integer)] = {
     val paramPattern = raw" *([0-9]+) *, *([0-9]+)".r
     val t = Try({ val t = paramPattern.findAllIn(str); (t.group(1).toInteger, t.group(2).toInteger) })

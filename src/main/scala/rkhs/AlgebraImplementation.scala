@@ -1,6 +1,7 @@
 package rkhs
 
 import breeze.linalg.{DenseMatrix, DenseVector, sum}
+import io.ReadParam
 import various.Error
 import various.Math
 import various.TypeDef._
@@ -41,17 +42,13 @@ object AlgebraImplementation {
     }*/
 
     def getKernel(inStr: String): Try[(Real, Real) => Real] = {
-      val inArray: Array[String] = inStr.split(".")
-      val structureName: String = inArray(0)
-
       for {
-        _ <- Error.validate(inArray, inArray.length != 2, "For real numbers, the kernel name must follow the structure sutructure.kernel, for example InnerProductSpace.linear().")
-        (kernelStr, paramStr) <- io.ReadParam.parseParam(structureName)
+        (structure, kernel, param) <- ReadParam.parseKernel(inStr)
         res <- {
-          structureName match {
-            case "InnerProductSpace" => InnerProductSpace.getKernel(kernelStr, paramStr)
-            case "MetricSpace" => MetricSpace.getKernel(kernelStr, paramStr)
-            case _ => Failure(new Exception(s"For real numbers, the structure $structureName has not been implemented yet. Try InnerProductSpace or MetricSpace."))
+          structure match {
+            case "InnerProductSpace" => InnerProductSpace.getKernel(kernel, param)
+            case "MetricSpace" => MetricSpace.getKernel(kernel, param)
+            case _ => Failure(new Exception(s"For real numbers, the structure $structure has not been implemented yet. Try InnerProductSpace or MetricSpace."))
           }
         }
       } yield {
@@ -71,17 +68,13 @@ object AlgebraImplementation {
     val MetricSpace: AlgebraAbstract.MetricSpace[DenseVector[Real]] = AlgebraAbstract.MetricSpaceFromInnerProductSpace(InnerProductSpace)
 
     def getKernel(inStr: String): Try[(DenseVector[Real], DenseVector[Real]) => Real] = {
-      val inArray: Array[String] = inStr.split(".")
-      val structureName: String = inArray(0)
-
       for {
-        _ <- Error.validate(inArray, inArray.length != 2, "For vectors of real numbers, the kernel name must follow the structure structure.kernel, for example InnerProductSpace.linear().")
-        (kernelStr, paramStr) <- io.ReadParam.parseParam(structureName)
+        (structure, kernel, param) <- ReadParam.parseKernel(inStr)
         res <- {
-          structureName match {
-            case "InnerProductSpace" => InnerProductSpace.getKernel(kernelStr, paramStr)
-            case "MetricSpace" => MetricSpace.getKernel(kernelStr, paramStr)
-            case _ => Failure(new Exception(s"For vectors of real numbers, the structure $structureName has not been implemented yet. Try InnerProductSpace or MetricSpace."))
+          structure match {
+            case "InnerProductSpace" => InnerProductSpace.getKernel(kernel, param)
+            case "MetricSpace" => MetricSpace.getKernel(kernel, param)
+            case _ => Failure(new Exception(s"For vectors of real numbers, the structure $structure has not been implemented yet. Try InnerProductSpace or MetricSpace."))
           }
         }
       } yield {
@@ -102,17 +95,13 @@ object AlgebraImplementation {
     val MetricSpace: AlgebraAbstract.MetricSpace[DenseMatrix[Real]] = AlgebraAbstract.MetricSpaceFromInnerProductSpace(InnerProductSpace)
 
     def getKernel(inStr: String): Try[(DenseMatrix[Real], DenseMatrix[Real]) => Real] = {
-      val inArray: Array[String] = inStr.split(".")
-      val structureName: String = inArray(0)
-
       for {
-        _ <- Error.validate(inArray, inArray.length != 2, "For matrices of real numbers, the kernel name must follow the structure structure.kernel, for example InnerProductSpace.linear().")
-        (kernelStr, paramStr) <- io.ReadParam.parseParam(structureName)
+        (structure, kernel, param) <- ReadParam.parseKernel(inStr)
         res <- {
-          structureName match {
-            case "InnerProductSpace" => InnerProductSpace.getKernel(kernelStr, paramStr)
-            case "MetricSpace" => MetricSpace.getKernel(kernelStr, paramStr)
-            case _ => Failure(new Exception(s"For matrices of real numbers, the structure $structureName has not been implemented yet. Try InnerProductSpace or MetricSpace."))
+          structure match {
+            case "InnerProductSpace" => InnerProductSpace.getKernel(kernel, param)
+            case "MetricSpace" => MetricSpace.getKernel(kernel, param)
+            case _ => Failure(new Exception(s"For matrices of real numbers, the structure $structure has not been implemented yet. Try InnerProductSpace or MetricSpace."))
           }
         }
       } yield {
