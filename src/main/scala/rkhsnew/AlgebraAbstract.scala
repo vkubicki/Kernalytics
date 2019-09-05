@@ -21,7 +21,7 @@ object AlgebraAbstract {
       def minus(x: T, y: T): T
       def ip(x: T, y: T): Real
 
-      def apply(kernelNameStr: String, paramStr: String): Try[(T, T) => Real] = kernelNameStr match {
+      def getKernel(kernelNameStr: String, paramStr: String): Try[(T, T) => Real] = kernelNameStr match {
         case "linear" => Success(ip)
 
         case "polynomial" => for {
@@ -45,8 +45,17 @@ object AlgebraAbstract {
     trait MetricSpace[T] {
       def distance(x: T, y: T): Real
 
-      def gaussian(x: T, y: T, sd: Real): Real = math.exp(-math.pow(distance(x, y), 2.0) / (2.0 * math.pow(sd, 2.0)))
-      def laplacian(x: T, y: T, alpha: Real): Real = math.exp(-alpha * distance(x, y))
+      def getKernel(kernelNameStr: String, paramStr: String): Try[(T, T) => Real] = kernelNameStr match {
+        case "gaussian" => for {
+          sd <- Try(paramStr.toReal)
+          _ <- Error.validate(sd, 0.0 < sd, s"A $kernelNameStr model has a sd parameter value $paramStr. sd should be strictly superior to 0.")
+        } yield (x: T, y: T) => math.exp(-math.pow(distance(x, y), 2.0) / (2.0 * math.pow(sd, 2.0)))
+
+        case "laplacian" => for {
+          alpha <- Try(paramStr.toReal)
+          _ <- Error.validate(alpha, 0.0 < alpha, s"A $kernelNameStr model has a alpha parameter value $paramStr. alpha should be strictly superior to 0.")
+        } yield (x: T, y: T) => math.exp(-alpha * distance(x, y))
+      }
     }
 
     def NormedSpaceFromInnerProductSpace[T](v: InnerProductSpace[T]): NormedSpace[T] = {

@@ -6,6 +6,7 @@
 
 ## Short Term
 
+- ChiSquared distribution for Vector[Real]
 - provide test cases for all algorithms, in Scala and R
 - provide detailed instructions for kernalizr, at least in a markdown format
 - some data types are coded but can not be used in a csv file for lack of an implemented parser:

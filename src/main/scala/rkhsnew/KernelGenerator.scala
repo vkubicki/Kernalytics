@@ -17,7 +17,7 @@ object KernelGenerator {
    */
   def generateKernelFromParamData(kernelStr: String, data: DataRoot): Try[(Index, Index) => Real] = data match {
     case DataRoot.RealVal(data) => AlgebraImplementation.R.getKernel(kernelStr).map(ker => KerEval.generateKerEvalFunc(data, ker))
-    case DataRoot.VectorReal(_) => Failure(new Exception("Kernels have not yet been defined for vectors of real numbers."))
-    case DataRoot.MatrixReal(_) => Failure(new Exception("Kernels have not yet been defined for matrices of real numbers."))
+    case DataRoot.VectorReal(data) => AlgebraImplementation.VectorR.getKernel(kernelStr).map(ker => KerEval.generateKerEvalFunc(data, ker))
+    case DataRoot.MatrixReal(data) => AlgebraImplementation.MatrixR.getKernel(kernelStr).map(ker => KerEval.generateKerEvalFunc(data, ker))
   }
 }
