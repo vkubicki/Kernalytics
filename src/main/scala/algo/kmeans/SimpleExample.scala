@@ -1,17 +1,15 @@
 package algo.kmeans
 
 import breeze.linalg._
-import rkhs.{ Algebra, Gram, Kernel }
+import rkhs.AlgebraImplementation.VectorR
+import rkhs.Gram
 import various.Iterate
 
 object SimpleExample {
   def main {
     //    val kernel: (DenseVector[Double], DenseVector[Double]) => Double = Kernel.Legacy.Rn.linear
-    
-    val kernel = Kernel.InnerProduct.linear(
-      _: DenseVector[Double],
-      _: DenseVector[Double],
-      Algebra.DenseVectorReal.InnerProductSpace)
+
+    val kernel = VectorR.getKernel("InnerProductSpace.linear()").get
       
     val sd = 10.0
 

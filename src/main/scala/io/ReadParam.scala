@@ -15,7 +15,7 @@ import various.TypeDef._
  * - kernel (including parameters)
  */
 object ReadParam {
-  class ParsedParam(val name: String, val weight: Real, val kernel: String, val param: String)
+  class ParsedParam(val name: String, val weight: Real, val kernel: String)
   
   def readAndParseParam(fileName: String): Try[Array[ParsedParam]] =
     readParams(fileName)
@@ -38,8 +38,7 @@ object ReadParam {
     for {
       _ <- checkSize(v)
       w <- Try(v(1).toReal)
-      (kernelStr, paramStr) <- parseParam(v(2))
-    } yield new ParsedParam(v(0), w, kernelStr, paramStr)
+    } yield new ParsedParam(v(0), w, v(2))
   
   def checkSize(v: Array[String]): Try[Array[String]] =
     if (v.size != 3)

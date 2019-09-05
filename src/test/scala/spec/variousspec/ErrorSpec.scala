@@ -12,11 +12,10 @@ import rkhs.{ DataRoot, KernelGenerator, KerEval }
 
 class ErrorSpec extends FlatSpec with Matchers {
   "generateKernel" should "detect an error in parameters provided" in {
-    val kernelNameStr = "Gaussian"
-    val paramStr = "-12.0"
+    val kernelNameStr = "InnerProductSpace.gaussian(-12.0)"
     val data = DataRoot.RealVal(DenseVector[Real](0.0, 12.0, -5.6))
     
-    val res = KernelGenerator.generateKernelFromParamData(kernelNameStr, paramStr, data)
+    val res = KernelGenerator.generateKernelFromParamData(kernelNameStr, data)
     
     val mes = res match {
       case Success(_) => "No problem in parameters."

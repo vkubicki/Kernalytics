@@ -63,5 +63,5 @@ object CombineVarParam {
   def linkParamToData(dict: Map[String, DataRoot], param: ReadParam.ParsedParam): Try[KerEval.KerEvalFuncDescription] =
     for {
       data <- Try(dict(param.name))
-    } yield new KerEval.KerEvalFuncDescription(param.weight, data, param.kernel, param.param)
+    } yield new KerEval.KerEvalFuncDescription(param.weight, data, param.kernel)
 }

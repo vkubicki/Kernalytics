@@ -35,7 +35,7 @@ object KerEval {
   }
 
   /** This class is used to provide an individual description for each kernel component in a multivariable / multikernel setting. */
-  case class KerEvalFuncDescription(weight: Real, data: DataRoot, kernel: String, param: String)
+  case class KerEvalFuncDescription(weight: Real, data: DataRoot, kernel: String)
 
   /**
    * Generate the kerEval function from the data. The resulting function does not depend on the data type. Data is kept
@@ -74,7 +74,7 @@ object KerEval {
     data
       .reverse
       .foldLeft[Try[List[(Index, Index) => Real]]](Success(Nil))((acc, e) =>
-        acc.flatMap(l => KernelGenerator.generateKernelFromParamData(e.kernel, e.param, e.data).map(k => k :: l)))
+        acc.flatMap(l => KernelGenerator.generateKernelFromParamData(e.kernel, e.data).map(k => k :: l)))
       .map(kList => linearCombKerEvalFunc(kList.toArray, weights))
   }
 }

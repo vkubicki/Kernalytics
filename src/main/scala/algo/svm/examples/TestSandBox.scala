@@ -26,7 +26,7 @@ object TestSandBox {
 
   val y = DenseVector[Real](1.0, 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, -1.0)
 
-  val kerEvalFunc = KernelGenerator.generateKernelFromParamData("Linear", "", new DataRoot.VectorReal(x)).get
+  val kerEvalFunc = KernelGenerator.generateKernelFromParamData("InnerProductSpace.linear()", new DataRoot.VectorReal(x)).get
 
   val kerEval = new KerEval.Direct(x.length, 0, kerEvalFunc)
 

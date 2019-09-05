@@ -4,7 +4,7 @@ import algo.offlinechangepoint.{CostMatrix, Segmentation}
 import breeze.linalg._
 import breeze.numerics._
 import org.scalatest._
-import rkhs.{Algebra, KerEval, Kernel}
+import rkhs.{AlgebraImplementation, KerEval}
 import various.TypeDef._
 
 /**
@@ -29,12 +29,7 @@ class CostMatrixSpec extends FlatSpec with Matchers {
 
     val data = Segmentation.generateData(sampleLawsStochastic, nPoints, segPoints)
 
-    val kernel =
-      Kernel.InnerProduct.gaussian(
-        _: Real,
-        _: Real,
-        Algebra.R.InnerProductSpace,
-        kernelSD)
+    val kernel = AlgebraImplementation.R.getKernel(s"InnerProductSpace.gaussian($kernelSD)").get
 
     val kerEval = KerEval.generateKerEvalFunc(data, kernel)
 

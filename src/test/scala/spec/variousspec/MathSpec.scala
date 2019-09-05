@@ -6,7 +6,7 @@ import org.scalactic._
 import org.scalatest._
 import various.Math
 import various.TypeDef._
-import rkhs.Algebra
+import rkhs.AlgebraImplementation
 import org.scalactic.source.Position.apply
 
 /**
@@ -73,6 +73,6 @@ class MathSpec extends FlatSpec with Matchers {
 
     val res = Math.segmentationMatrix(seg, nObs)
 
-    math.pow(Algebra.DenseMatrixReal.NormedSpace.norm(res), 2.0) should ===(4.0 +- 1.0e-4)
+    math.pow(AlgebraImplementation.MatrixR.NormedSpace.norm(res), 2.0) should ===(4.0 +- 1.0e-4)
   }
 }

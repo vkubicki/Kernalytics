@@ -36,7 +36,7 @@ class SegmentationSpec extends FlatSpec with Matchers {
     }
 
     val data = Segmentation.generateData(sampleLawDeterministic, nPoints, segPoints)
-    val kerEval = KernelGenerator.generateKernelFromParamData("Gaussian", "0.5", DataRoot.RealVal(data)).get
+    val kerEval = KernelGenerator.generateKernelFromParamData("InnerProductSpace.gaussian(0.5)", DataRoot.RealVal(data)).get
     val seg = Segmentation.segment(kerEval, dMax, nPoints, None)
 
     (segPoints) should ===(seg)
@@ -67,7 +67,7 @@ class SegmentationSpec extends FlatSpec with Matchers {
     }
 
     val data = Segmentation.generateData(sampleLawDeterministic, nPoints, segPoints)
-    val kerEval = KernelGenerator.generateKernelFromParamData("Gaussian", "0.5", DataRoot.MatrixReal(data)).get
+    val kerEval = KernelGenerator.generateKernelFromParamData("InnerProductSpace.gaussian(0.5)", DataRoot.MatrixReal(data)).get
     val seg = Segmentation.segment(kerEval, dMax, nPoints, None)
 
     (segPoints) should ===(seg)
@@ -96,8 +96,8 @@ class SegmentationSpec extends FlatSpec with Matchers {
     }
 
     val data = Segmentation.generateData(sampleLawDeterministic, nPoints, segPoints)
-    val kerEval0 = KernelGenerator.generateKernelFromParamData("Gaussian", "0.5", DataRoot.RealVal(data)).get
-    val kerEval1 = KernelGenerator.generateKernelFromParamData("Linear", "", DataRoot.RealVal(data)).get
+    val kerEval0 = KernelGenerator.generateKernelFromParamData("InnerProductSpace.gaussian(0.5)", DataRoot.RealVal(data)).get
+    val kerEval1 = KernelGenerator.generateKernelFromParamData("InnerProductSpace.linear()", DataRoot.RealVal(data)).get
     val kerEval = KerEval.linearCombKerEvalFunc(Array(kerEval0, kerEval1), DenseVector[Real](0.5, 0.5))
     val seg = Segmentation.segment(kerEval, dMax, nPoints, None)
 
@@ -134,8 +134,8 @@ class SegmentationSpec extends FlatSpec with Matchers {
 
     val varDescription =
       List(
-        new KerEval.KerEvalFuncDescription(0.5, DataRoot.RealVal(data0), "Gaussian", "0.5"),
-        new KerEval.KerEvalFuncDescription(0.5, DataRoot.RealVal(data1), "Linear", ""))
+        new KerEval.KerEvalFuncDescription(0.5, DataRoot.RealVal(data0), "InnerProductSpace.gaussian(0.5)"),
+        new KerEval.KerEvalFuncDescription(0.5, DataRoot.RealVal(data1), "InnerProductSpace.linear()"))
     val kerEval = KerEval.multivariateKerEval(varDescription)
     val seg = Segmentation.segment(kerEval.get, dMax, nPoints, None)
 
