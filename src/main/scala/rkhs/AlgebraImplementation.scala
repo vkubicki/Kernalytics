@@ -27,20 +27,6 @@ object AlgebraImplementation {
 
     val MetricSpace: AlgebraAbstract.MetricSpace[Real] = AlgebraAbstract.MetricSpaceFromInnerProductSpace(InnerProductSpace)
 
-/*    /**
-     * Must be used as a metric for the laplacian kernel to get the ChiSquared kernel.
-     * https://en.wikipedia.org/wiki/Positive-definite_kernel
-     *
-     * TODO: implement other squared norm based kernels, like Jensen divergence or Total Variation.
-     */
-    def ChiSquared(x: DenseVector[Real], y: DenseVector[Real]): Real = {
-      val elements = DenseVector.tabulate(x.size)(i => {
-        math.pow(x(i) - y(i), 2.0) / (x(i) + y(i))
-      })
-
-      sum(elements)
-    }*/
-
     def getKernel(inStr: String): Try[(Real, Real) => Real] = {
       for {
         (structure, kernel, param) <- ReadParam.parseKernel(inStr)
@@ -72,9 +58,10 @@ object AlgebraImplementation {
         (structure, kernel, param) <- ReadParam.parseKernel(inStr)
         res <- {
           structure match {
+            case "Distribution" => AlgebraAbstract.Distribution.getKernel(kernel, param)
             case "InnerProductSpace" => InnerProductSpace.getKernel(kernel, param)
             case "MetricSpace" => MetricSpace.getKernel(kernel, param)
-            case _ => Failure(new Exception(s"For vectors of real numbers, the structure $structure has not been implemented yet. Try InnerProductSpace or MetricSpace."))
+            case _ => Failure(new Exception(s"For vectors of real numbers, the structure $structure has not been implemented yet. Try Distribution, InnerProductSpace or MetricSpace."))
           }
         }
       } yield {

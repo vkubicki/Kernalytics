@@ -47,6 +47,7 @@ The [Technology Readiness Level](https://en.wikipedia.org/wiki/Technology_readin
 
 - [Licence](LICENCE.md)
 - [Build instructions](doc/build.md)
+- [Kernels and algebraic structures implemented](doc/implemented.md)
 - [Numerical methods overview](doc/overview.md)
 - [Complete run description](doc/algoDesc.md)
 - [I/O file formats](doc/io.md)

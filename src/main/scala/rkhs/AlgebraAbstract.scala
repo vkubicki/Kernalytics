@@ -1,5 +1,6 @@
 package rkhs
 
+import breeze.linalg.{DenseVector, sum}
 import various.Error
 import various.TypeDef._
 
@@ -76,4 +77,25 @@ object AlgebraAbstract {
 
   def MetricSpaceFromInnerProductSpace[T](v: InnerProductSpace[T]): MetricSpace[T] =
     MetricSpaceFromNormedSpace(NormedSpaceFromInnerProductSpace(v))
+
+  object Distribution {
+    /**
+     * Must be used as a metric for the laplacian kernel to get the ChiSquared kernel.
+     * https://en.wikipedia.org/wiki/Positive-definite_kernel
+     *
+     * TODO: implement other squared norm based kernels, like Jensen divergence or Total Variation.
+     */
+    def chisquared(x: DenseVector[Real], y: DenseVector[Real]): Real = {
+      val elements = DenseVector.tabulate(x.size)(i => {
+        math.pow(x(i) - y(i), 2.0) / (x(i) + y(i))
+      })
+
+      sum(elements)
+    }
+
+    def getKernel(kernelNameStr: String, paramStr: String): Try[(DenseVector[Real], DenseVector[Real]) => Real] = kernelNameStr match {
+      case "chisquared()" => Success(chisquared)
+      case _ => Failure(new Exception("Only chisquared is implemented in Distribution at the moment."))
+    }
+  }
 }

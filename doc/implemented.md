@@ -2,6 +2,10 @@
 
 ## For each algebraic structure
 
+### Distribution
+
+- chisquared()
+
 ### InnerProductSpace
 
 - gaussian(sd)
@@ -27,6 +31,7 @@ Nothing yet.
 
 ### Vector of real
 
+- Distribution
 - InnerProductSpace
 - NormedSpaced
 - MetricSpace
