@@ -20,17 +20,17 @@ object SimpleCase2D {
   val rootFolder = "data/exec/svm"
   val varName = "v1"
   val varType = "VectorReal,2"
-  val learnYFile = rootFolder + Def.folderSep + "learnY.csv"
-  val predictYFile = rootFolder + Def.folderSep + "predictY.csv"
-  val predictYExpectedFile = rootFolder + Def.folderSep + "predictYExpected.csv"
-  val predictConfusionFile = rootFolder + Def.folderSep + "predictConfusion.csv"
+  val learnYFile: String = rootFolder + Def.folderSep + "learnY.csv"
+  val predictYFile: String = rootFolder + Def.folderSep + "predictY.csv"
+  val predictYExpectedFile: String = rootFolder + Def.folderSep + "predictYExpected.csv"
+  val predictConfusionFile: String = rootFolder + Def.folderSep + "predictConfusion.csv"
 
-  def writeAll {
-    writeData
-    writeConfig
+  def writeAll() {
+    writeData()
+    writeConfig()
   }
 
-  def writeData {
+  def writeData() {
     val nPoints = 100
 
     val C: Real = 1000 // large value to penalize non compliance with margins
@@ -62,7 +62,7 @@ object SimpleCase2D {
   def computeY(point: Array[Real]): Real =
     if (point(1) >= math.sin(point(0))) 1.0 else -1.0
 
-  def writeConfig {
+  def writeConfig() {
     val algo = Array(
       Array("algo", "svm"),
       Array("C", "1000"),
@@ -73,7 +73,7 @@ object SimpleCase2D {
     FileUtils.writeStringToFile(new File(rootFolder + Def.folderSep + "algo.csv"), algoStr, "UTF-8")
 
     val desc = Array(
-      Array(varName, "1.0", "Gaussian(1.0)"))
+      Array(varName, "1.0", "InnerProductSpace.gaussian(1.0)"))
     val descStr = desc.transpose.map(_.mkString(Def.csvSep)).mkString(Def.eol)
     FileUtils.writeStringToFile(new File(rootFolder + Def.folderSep + "desc.csv"), descStr, "UTF-8")
   }
@@ -81,7 +81,7 @@ object SimpleCase2D {
   /**
    * Compute and export confusion matrix.
    */
-  def checkPrediction = {
+  def checkPrediction() {
     val res = DenseMatrix.zeros[Real](2, 2)
 
     val expectedData =
@@ -100,7 +100,7 @@ object SimpleCase2D {
 
     val nObs = expectedData.length
 
-    for (i <- 0 to nObs - 1) {
+    for (i <- 0 until nObs) {
       val currData = Array(expectedData(i), computedData(i))
       val indices = currData.map(y => if (y < 0.0) 0 else 1)
       res(indices(0), indices(1)) += 1

@@ -15,12 +15,12 @@ import algo.regression.PredictAlgorithm
 object Simple {
   val rootFolder = "data/exec/regression"
 
-  def writeAll {
-    writeData
-    writeConfig
+  def writeAll() {
+    writeData()
+    writeConfig()
   }
 
-  def writeData {
+  def writeData() {
     val min = -3.0
     val max = 18.0
     val sd = 1.0
@@ -57,7 +57,7 @@ object Simple {
     FileUtils.writeStringToFile(new File(rootFolder + Def.folderSep + "predictExpectedY.csv"), yPredictStr, "UTF-8")
   }
 
-  def writeConfig {
+  def writeConfig() {
     val algo = Array(
       Array("algo", "regression"),
       Array("lambda", "1e-4"),
@@ -69,12 +69,12 @@ object Simple {
     FileUtils.writeStringToFile(new File(rootFolder + Def.folderSep + "algo.csv"), algoStr, "UTF-8")
 
     val desc = Array(
-      Array("v1", "1.0", "Gaussian(1.0)"))
+      Array("v1", "1.0", "InnerProductSpace.gaussian(1.0)"))
     val descStr = desc.transpose.map(_.mkString(Def.csvSep)).mkString(Def.eol)
     FileUtils.writeStringToFile(new File(rootFolder + Def.folderSep + "desc.csv"), descStr, "UTF-8")
   }
 
-  def compareExpectedPredicted {
+  def compareExpectedPredicted() {
     val x = getCsvData(rootFolder + Def.folderSep + "predictData.csv", 2)
     val yComputed = getCsvData(rootFolder + Def.folderSep + "predictY.csv", 0)
     val yExpected = getCsvData(rootFolder + Def.folderSep + "predictExpectedY.csv", 0)
@@ -97,6 +97,6 @@ object Simple {
   def getCsvData(file: String, headerSize: Index): DenseVector[Real] = {
     val data = Source.fromFile(file).getLines.drop(headerSize).map(_.toReal).toArray
 
-    return DenseVector[Real](data)
+    DenseVector[Real](data)
   }
 }

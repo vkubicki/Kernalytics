@@ -1,18 +1,18 @@
 package exec
 
-object Examples {
+object RunExamples extends App {
   def svm() {
-    algo.svm.examples.SimpleCase2D.writeAll
+    algo.svm.examples.SimpleCase2D.writeAll()
     val rootFolder = "data/exec/svm"
 
     Learn.main(rootFolder)
     Predict.main(rootFolder)
 
-    algo.svm.examples.SimpleCase2D.checkPrediction
+    algo.svm.examples.SimpleCase2D.checkPrediction()
   }
 
   def regression() {
-    algo.regression.examples.Simple.writeAll
+    algo.regression.examples.Simple.writeAll()
     val rootFolder = "data/exec/regression"
     
     val resLearn: Unit = Learn.main(rootFolder)
@@ -21,11 +21,15 @@ object Examples {
     val resPredict: Unit = Predict.main(rootFolder)
     println(resPredict)
     
-    algo.regression.examples.Simple.compareExpectedPredicted
+    algo.regression.examples.Simple.compareExpectedPredicted()
   }
 
   def offlinechangepoint() {
     val rootFolder = "data/exec/offlinechangepoint"
     Learn.main(rootFolder)
   }
+
+  svm()
+  regression()
+  offlinechangepoint()
 }
