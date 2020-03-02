@@ -4,12 +4,21 @@
 
 - in [io](/doc/io.md), provide a description of the parameters and output specific to each method.
 
+## kernalyzr
+
+- Get a structure similar to [shallot](https://github.com/dbdahl/shallot/tree/master/R/shallot)
+- use `crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1")` to generate all jars
+- modify IO to be able to use generic R data
+  - how to manage advanced types, for example matrices, graphs, ... ?
+  - data type supported in R should be usable in a dataframe, and types not supported should be parsed from strings
+  - intermediary tool could provide translations to / from those strings for common formats
+
 ## Short Term
 
 - run R tests with the new parameter format
 - update all documentation to the new architecture
 - provide test cases for all algorithms, in Scala and R
-- provide detailed instructions for kernalizr, at least in a markdown format
+- provide detailed instructions for kernalyzr, at least in a markdown format
 - some data types are coded but can not be used in a csv file for lack of an implemented parser:
   - matrices
 - arrays should be used instead of DenseVector for all [DataRoot](/src/main/scala/rkhs/DataRoot.scala) subclasses. No linear algebra are performed directly on the data, making the Breeze container useless.
@@ -25,7 +34,7 @@
 
 ### Computation
 
-- Regression and MMD are ignoring cache directives (alogo.csv/gramOpti). Algorithms should be written to take them into account.
+- Regression and MMD are ignoring cache directives (algo.csv/gramOpti). Algorithms should be written to take them into account.
 
 ### Check
 
@@ -34,7 +43,7 @@
 
 ### kernalyzr
 
-- rscala::scalaSBT will support sbt assembly in the future. when that is the case, remove the updateAssembly.sh script at the root, and simplify the configure script.
+- rscala::scalaSBT will support sbt assembly in the future. When that is the case, remove the updateAssembly.sh script at the root, and simplify the configure script.
 
 ### Mathematics
 
@@ -45,7 +54,7 @@
 ### Performances
 
 - k-means should have a predict mode
-- the loop over D in offline change point detection for a given tauP can be parallelized.
+- the loop over D in offline change point detection for a given tauP can be run in parallel.
   - Will the gain outweigh the overhead for thread spawning ?
   - That would depend on the value of DMax.
   - is it possible to do it for the mutable state version ?

@@ -1,6 +1,8 @@
 # How to build Kernalytics
 
-Check that sbt is installed on your computer. Follow the *Dependencies* instructions in this document if that is not the case. sbt can take care of most tasks when developing the scala library.
+Kernalytics is built through sbt. Check that sbt is installed on your computer. Follow the *Dependencies* instructions in this document if that is not the case. sbt can take care of most tasks when developing the scala library.
+
+`sbt update` from the command line is the most basic way to setup / build it.
 
 ## Java JDK
 
@@ -9,6 +11,7 @@ The version 1.8 of the jdk is required. More recent versions will not be compati
 ## Windows
 
 Simply get the tools from their main site:
+
 - [AdoptOpenJDK](https://adoptopenjdk.net)
 - [sbt](https://www.scala-sbt.org/)
 
@@ -20,7 +23,7 @@ Kernalytics is built for Scala 2.12. It depends on sbt and git is called from th
 sudo apt install git sbt openjdk-8-jdk
 ```
 
-For Ubuntu 16.04, sbt is not provided in the main repositories. It is possible to follow the instructions provided at https://www.scala-sbt.org/download.html. The command to install the missing dependencies then become:
+For Ubuntu 16.04, sbt is not provided in the main repositories. It is possible to follow the instructions provided at [scala-sbt](https://www.scala-sbt.org/download.html). The command to install the missing dependencies then become:
 
 ```bash
 echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
@@ -43,4 +46,3 @@ and the command to get sbt and git is:
 ```bash
 brew install git sbt
 ```
-

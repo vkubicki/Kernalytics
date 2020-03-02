@@ -16,8 +16,8 @@ object IncompleteCholesky {
 
     val g = DenseMatrix.zeros[Real](nrow, m)
     val d = diag(kMat).copy
-    val jkSet = (0 to (ncol - 1)).to[SortedSet] // mutable SortedSet
-    var jkBuffer = jkSet.toBuffer // a buffer is an indexedSeq with constant access, that could be used for slicing
+    val jkSet: SortedSet[Integer] = SortedSet(0 until ncol:_*) // mutable SortedSet
+    var jkBuffer = jkSet.toIndexedSeq // a buffer is an indexedSeq with constant access, that could be used for slicing
 
     for (k <- 0 to m - 1) {
       val ik =
@@ -27,7 +27,7 @@ object IncompleteCholesky {
           ._1
 
       jkSet -= ik //update JK
-      jkBuffer = jkSet.toBuffer // update IndexedSet version of jkSet (used for slicing)
+      jkBuffer = jkSet.toIndexedSeq // update IndexedSet version of jkSet (used for slicing)
 
       if (d(ik) < 0.0) return Failure(new Exception(s"Low Rank: rank $m is too high and positiveness can not be enforced. Try either a m inferior or equal to ${k + 1}, or use Direct() to avoid low rank approximation completely."))
         
@@ -52,8 +52,8 @@ object IncompleteCholesky {
   def icd(nObs: Index, kerEvalFunc: (Index, Index) => Real, m: Index): Try[DenseMatrix[Real]] = {
     val g = DenseMatrix.zeros[Real](nObs, m)
     val d = DenseVector.tabulate[Real](nObs)(i => kerEvalFunc(i, i))
-    val jkSet = (0 to (nObs - 1)).to[SortedSet] // mutable SortedSet
-    var jkBuffer = jkSet.toBuffer // a buffer is an indexedSeq with constant access, that could be used for slicing
+    val jkSet: SortedSet[Integer] = SortedSet(0 until nObs:_*) // mutable SortedSet
+    var jkBuffer = jkSet.toIndexedSeq // a buffer is an indexedSeq with constant access, that could be used for slicing
 
     for (k <- 0 to m - 1) {
       val ik =
@@ -63,7 +63,7 @@ object IncompleteCholesky {
           ._1
 
       jkSet -= ik //update JK
-      jkBuffer = jkSet.toBuffer // update IndexedSet version of jkSet (used for slicing)
+      jkBuffer = jkSet.toIndexedSeq // update IndexedSet version of jkSet (used for slicing)
 
       if (d(ik) < 0.0) return Failure(new Exception(s"Low Rank: rank $m is too high and positiveness can not be enforced. Try either a m inferior or equal to ${k + 1}, or use Direct() to avoid low rank approximation completely."))
       

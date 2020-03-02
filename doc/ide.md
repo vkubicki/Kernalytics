@@ -12,7 +12,3 @@ Simply install the Scala plugin, and open the root Kernalytics directory.
 - Get Scala-IDE, which is a customization of Eclipse, either a a stand-alone IDE, or as an update site for a current installation of Eclipse
 - In Eclipse, activate the option "Insert spaces for tabs"
 - To build the jar and transfer it to the R project, run the script [update assembly](/updateAssembly.sh)
-
-## no IDE
-
-Kernalytics is built through sbt. `sbt update` is the most basic way to setup / build it.

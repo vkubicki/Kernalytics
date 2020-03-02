@@ -110,10 +110,10 @@ object ReadVar {
     val learnSorted = learnParsedVars.sortBy(_.take(headerSize).mkString(Def.eol)) // sort variables by concatenated headers
     val predictSorted = predictParsedVars.sortBy(_.take(headerSize).mkString(Def.eol))
     
-    val learnHeader = learnSorted.map(_.take(headerSize).mkString(Def.eol))
-    val predictHeader = predictSorted.map(_.take(headerSize).mkString(Def.eol))
+    val learnHeader: Array[String] = learnSorted.map(_.take(headerSize).mkString(Def.eol))
+    val predictHeader: Array[String] = predictSorted.map(_.take(headerSize).mkString(Def.eol))
     
-    if (learnHeader.deep == predictHeader.deep) { // check equality of headers using deep comparison
+    if (learnHeader.sameElements(predictHeader)) { // check equality of headers using deep comparison
       Success(mergeContent(learnSorted, predictSorted))
     } else {
       Failure(new Exception("Data files in learn and predict do not contain the same variables."))
